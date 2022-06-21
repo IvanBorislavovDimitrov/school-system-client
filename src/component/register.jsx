@@ -173,11 +173,7 @@ class Register extends Component {
     };
 
     componentDidMount() {
-        let isLoggedIn = false;
-        const token = localStorage.getItem('token');
-        if (token !== null && token !== undefined && token != "undefined") {
-            window.location.href = '/';
-        }
+    
     }
 
     moveToLogin = () => {

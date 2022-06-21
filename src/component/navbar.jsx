@@ -15,18 +15,20 @@ class Navbar extends Component {
             isLoggedIn = true;
         }
 
-        let isAdmin = false;
-        let isModerator = false;
+        let isDirector = false;
+        let isTeacher = false;
+        let isStudent = false;
         const userRoles = localStorage.getItem('userRoles');
         if (userRoles !== undefined && userRoles !== null) {
-            isAdmin = userRoles.includes('admin');
-            isModerator = userRoles.includes('moderator');
+            isDirector = userRoles.includes('director');
+            isTeacher = userRoles.includes('teacher');
+            isStudent = userRoles.includes('student');
         }
 
         return (
             <React.Fragment>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <a className="navbar-brand" href="/">Моето време</a>
+                    <a className="navbar-brand" href="/">Училище Св. Кирил</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -38,27 +40,19 @@ class Navbar extends Component {
                                 <a className="nav-link" href="/login">Вход</a>
                             </li>
 
-                            <li className="nav-item" hidden={isLoggedIn}>
-                                <a className="nav-link" href="/register">Регистрация</a>
+                            <li className="nav-item" hidden={!isDirector}>
+                                <a className="nav-link" href="/register">Регистрация на учител</a>
                             </li>
 
-                            <li className="nav-item" hidden={!isLoggedIn}>
-                                <a href="/add-raspberry" className="nav-link">Добави станция</a>
+                            <li className="nav-item" hidden={!isTeacher}>
+                                <a className="nav-link" href="/register">Регистрация на ученик</a>
                             </li>
 
-                            <li className="nav-item" hidden={!isLoggedIn}>
-                                <a href="/my-raspberries" className="nav-link">Моите станции</a>
-                            </li>
-
-                            <li className="nav-item" hidden={!isModerator || !isAdmin}>
+                            <li className="nav-item" hidden={!isTeacher || !isDirector}>
                                 <a href="/admin/update-roles/" className="nav-link">Промени роля</a>
                             </li>
 
-                            <li className="nav-item" hidden={!isModerator || !isAdmin}>
-                                <a href="/subscribe/emails" className="nav-link">Абониране имейли</a>
-                            </li>
-
-                            <li className="nav-item" hidden={!isAdmin}>
+                            <li className="nav-item" hidden={!isDirector}>
                                 <a href="/admin/delete-user/" className="nav-link">Изтрий потребител</a>
                             </li>
 
@@ -87,11 +81,13 @@ class Navbar extends Component {
         fetch(process.env.REACT_APP_URL + '/validate', {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer: ' + token
+                'Authorization': 'Bearer: ' + token,
+                'Content-Type': 'application/json'
             }
         }).then(async response => {
             await response.text();
             if (response.status !== 200) {
+                alert(response.status)
                 localStorage.removeItem('token');
                 localStorage.removeItem('userRoles');
                 window.location.reload();
@@ -119,7 +115,7 @@ class Navbar extends Component {
         const jwtDecoder = new JwtDecoder();
         const decodedToken = jwtDecoder.decodeToken(token);
         const roles = decodedToken['roles'];
-        return roles.includes('ADMIN');
+        return roles.includes('DIRECTOR');
     }
 
 }

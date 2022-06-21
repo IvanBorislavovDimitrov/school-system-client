@@ -64,7 +64,7 @@ class UserLogin extends Component {
             username: currentThis.state.username,
             password: currentThis.state.password
         };
-        fetch(process.env.REACT_APP_URL + '/user/authenticate', {
+        fetch(process.env.REACT_APP_URL + '/login', {
             method: 'POST',
             body: JSON.stringify(loginForm),
             headers: {
@@ -97,11 +97,7 @@ class UserLogin extends Component {
     };
 
     componentDidMount() {
-        let isLoggedIn = false;
-        const token = localStorage.getItem('token');
-        if (token !== null && token !== undefined && token != "undefined") {
-            window.location.href = '/';
-        }
+
     }
 
     redirectToForgottenPassword = () => {
