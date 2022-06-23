@@ -1,13 +1,14 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import '../styles/login.css'
 
-class Register extends Component {
+class RegisterClass extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: null,
             password: null,
-            email: null,
+            egn: null,
+            name: null,
             confirmPassword: null
         };
     }
@@ -18,22 +19,21 @@ class Register extends Component {
                 <div className="container register">
                     <div className="row">
                         <div className="col-md-3 register-left">
-                            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                             <h3>Здравей</h3>
-                            <p>Имаш акаунт? Тогава влез в профила си...</p>
-                            <input type="submit" onClick={this.moveToLogin} value="Вход"/>
+                            <p>Форма за регистрация на клас</p>
                         </div>
                         <div className="col-md-9 register-right">
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel"
-                                     aria-labelledby="home-tab">
-                                    <h3 className="register-heading">Регистрация</h3>
+                                    aria-labelledby="home-tab">
+                                    <h3 className="register-heading">Регистрация на нова специалност</h3>
                                     <div className="row register-form">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Имейл"
-                                                       name="email"
-                                                       onChange={this.changeInputField}
+                                                <input type="text" className="form-control" placeholder="Име"
+                                                    name="name"
+                                                    onChange={this.changeInputField}
                                                 />
                                             </div>
                                             <div id="emailNameInvalidForm" className="text-danger">
@@ -41,8 +41,14 @@ class Register extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <input type="text" className="form-control" placeholder="Потребителско име"
-                                                       name="username"
-                                                       onChange={this.changeInputField}
+                                                    name="username"
+                                                    onChange={this.changeInputField}
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <input type="text" className="form-control" placeholder="ЕГН"
+                                                    name="egn"
+                                                    onChange={this.changeInputField}
                                                 />
                                             </div>
                                             <div id="usernameNameInvalidForm" className="text-danger">
@@ -50,8 +56,8 @@ class Register extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <input type="password" className="form-control" placeholder="Парола"
-                                                       name="password"
-                                                       onChange={this.changeInputField}
+                                                    name="password"
+                                                    onChange={this.changeInputField}
                                                 />
                                             </div>
                                             <div id="passwordNameInvalidForm" className="text-danger">
@@ -59,9 +65,9 @@ class Register extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <input type="password" className="form-control"
-                                                       placeholder="Потвърди парола"
-                                                       name="confirmPassword"
-                                                       onChange={this.changeInputField}
+                                                    placeholder="Потвърди парола"
+                                                    name="confirmPassword"
+                                                    onChange={this.changeInputField}
                                                 />
                                             </div>
                                             <div id="confirmPasswordNameInvalidForm" className="text-danger">
@@ -69,7 +75,7 @@ class Register extends Component {
                                             </div>
 
                                             <input onClick={this.registerUser} type="submit" className="btnRegister"
-                                                   value="Регистрация"/>
+                                                value="Регистрация" />
                                         </div>
                                     </div>
                                 </div>
@@ -85,54 +91,27 @@ class Register extends Component {
     }
 
     registerUser = () => {
-        const emailNameInvalidForm = document.getElementById('emailNameInvalidForm');
-        const usernameNameInvalidForm = document.getElementById('usernameNameInvalidForm');
-        const passwordNameInvalidForm = document.getElementById('passwordNameInvalidForm');
-        const confirmPasswordNameInvalidForm = document.getElementById('confirmPasswordNameInvalidForm');
-        emailNameInvalidForm.textContent = '';
-        usernameNameInvalidForm.textContent = '';
-        passwordNameInvalidForm.textContent = '';
-        confirmPasswordNameInvalidForm.textContent = '';
-        let stop = false;
-        if (!this.validateEmail()) {
-            emailNameInvalidForm.textContent = 'Въведи имейл';
-            stop = true;
-        }
-        if (!this.validateUsername()) {
-            usernameNameInvalidForm.textContent = 'Въведи потребителско име';
-            stop = true;
-        }
-        if (!this.validatePassword()) {
-            passwordNameInvalidForm.textContent = 'Въведи парола';
-            stop = true;
-        }
-        if (!this.validateConfirmPassword()) {
-            confirmPasswordNameInvalidForm.textContent = 'Потвърди парола';
-            stop = true;
-        }
-        if (stop) {
-            return;
-        }
         const currentThis = this;
         const registerForm = {
             username: currentThis.state.username,
-            email: currentThis.state.email,
+            name: currentThis.state.name,
+            egn: currentThis.state.egn,
             password: currentThis.state.password,
             confirmPassword: currentThis.state.confirmPassword
         }
-        fetch(process.env.REACT_APP_URL + '/user/register', {
+        fetch(process.env.REACT_APP_URL + '/students', {
             method: 'POST',
             body: JSON.stringify(registerForm),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(async response => {
-            if (response.status !== 200) {
+            if (response.status !== 201) {
                 alert("You haven't been registered!");
                 return;
             }
             const registerResponse = await response.text();
-            alert("You've been registered!");
+            alert("Регистрирахте ученик");
             window.location.href = '/';
         })
             .catch(error => alert(error))
@@ -173,7 +152,7 @@ class Register extends Component {
     };
 
     componentDidMount() {
-    
+
     }
 
     moveToLogin = () => {
@@ -181,4 +160,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default RegisterClass;

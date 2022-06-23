@@ -45,7 +45,11 @@ class Navbar extends Component {
                             </li>
 
                             <li className="nav-item" hidden={!isTeacher}>
-                                <a className="nav-link" href="/register">Регистрация на ученик</a>
+                                <a className="nav-link" href="/register_student">Регистрация на ученик</a>
+                            </li>
+
+                            <li className="nav-item" hidden={!isTeacher}>
+                                <a className="nav-link" href="/register_class">Регистрация на клас</a>
                             </li>
 
                             <li className="nav-item" hidden={!isTeacher || !isDirector}>
