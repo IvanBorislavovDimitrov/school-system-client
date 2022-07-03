@@ -7,6 +7,7 @@ import Landing from "./component/landing";
 import UpdateUserRoles from "./component/update-user-roles";
 import DeleteUser from "./component/delete-users";
 import RegisterClass from "./component/register-class";
+import RegisterSpecialty from "./component/register-specialty";
 
 function App() {
   setTimeout(function () {
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/admin/delete-user/" component={DeleteUser} />
         <Route exact path="/admin/update-roles/" component={UpdateUserRoles} />
         <Route exact path="/register_class" component={RegisterClass} />
+        <Route exact path="/register_specialty" component={RegisterSpecialty} />
 
       </Switch>
     </BrowserRouter>

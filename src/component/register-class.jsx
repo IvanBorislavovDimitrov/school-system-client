@@ -27,7 +27,7 @@ class RegisterClass extends Component {
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <h3 className="register-heading">Регистрация на нова специалност</h3>
+                                    <h3 className="register-heading">Регистрация на нов клас</h3>
                                     <div className="row register-form">
                                         <div className="col-md-6">
                                             <div className="form-group">

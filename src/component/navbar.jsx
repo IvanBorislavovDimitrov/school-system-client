@@ -41,7 +41,11 @@ class Navbar extends Component {
                             </li>
 
                             <li className="nav-item" hidden={!isDirector}>
-                                <a className="nav-link" href="/register">Регистрация на учител</a>
+                                <a className="nav-link" href="/register_teacher">Регистрация на учител</a>
+                            </li>
+
+                            <li className="nav-item" hidden={!isDirector}>
+                                <a className="nav-link" href="/register_specialty">Добавяне на специалност</a>
                             </li>
 
                             <li className="nav-item" hidden={!isTeacher}>
@@ -52,7 +56,7 @@ class Navbar extends Component {
                                 <a className="nav-link" href="/register_class">Регистрация на клас</a>
                             </li>
 
-                            <li className="nav-item" hidden={!isTeacher || !isDirector}>
+                            <li className="nav-item" hidden={!isDirector}>
                                 <a href="/admin/update-roles/" className="nav-link">Промени роля</a>
                             </li>
 

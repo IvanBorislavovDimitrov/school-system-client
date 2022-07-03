@@ -21,13 +21,13 @@ class RegisterSpecialty extends Component {
                         <div className="col-md-3 register-left">
                             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                             <h3>Здравей</h3>
-                            <p>Форма за регистрация на клас</p>
+                            <p>Добавяне на нова специалност</p>
                         </div>
                         <div className="col-md-9 register-right">
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <h3 className="register-heading">Регистрация на нов клас</h3>
+                                    <h3 className="register-heading">Добавяне на нова специалност</h3>
                                     <div className="row register-form">
                                         <div className="col-md-6">
                                             <div className="form-group">
@@ -36,46 +36,8 @@ class RegisterSpecialty extends Component {
                                                     onChange={this.changeInputField}
                                                 />
                                             </div>
-                                            <div id="emailNameInvalidForm" className="text-danger">
-
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Потребителско име"
-                                                    name="username"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="ЕГН"
-                                                    name="egn"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div id="usernameNameInvalidForm" className="text-danger">
-
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="password" className="form-control" placeholder="Парола"
-                                                    name="password"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div id="passwordNameInvalidForm" className="text-danger">
-
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="password" className="form-control"
-                                                    placeholder="Потвърди парола"
-                                                    name="confirmPassword"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div id="confirmPasswordNameInvalidForm" className="text-danger">
-
-                                            </div>
-
-                                            <input onClick={this.registerUser} type="submit" className="btnRegister"
-                                                value="Регистрация" />
+                                            <input onClick={this.addSpecialty} type="submit" className="btnRegister"
+                                                value="Добавяне" />
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +52,7 @@ class RegisterSpecialty extends Component {
         );
     }
 
-    registerUser = () => {
+    addSpecialty = () => {
         const currentThis = this;
         const registerForm = {
             username: currentThis.state.username,
