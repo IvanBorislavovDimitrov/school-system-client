@@ -5,11 +5,7 @@ class RegisterSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
-            password: null,
-            egn: null,
             name: null,
-            confirmPassword: null
         };
     }
 
@@ -55,28 +51,25 @@ class RegisterSpecialty extends Component {
     addSpecialty = () => {
         const currentThis = this;
         const registerForm = {
-            username: currentThis.state.username,
             name: currentThis.state.name,
-            egn: currentThis.state.egn,
-            password: currentThis.state.password,
-            confirmPassword: currentThis.state.confirmPassword
         }
-        fetch(process.env.REACT_APP_URL + '/students', {
+        fetch(process.env.REACT_APP_URL + '/specialty', {
             method: 'POST',
             body: JSON.stringify(registerForm),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
             }
         }).then(async response => {
             if (response.status !== 201) {
-                alert("You haven't been registered!");
+                alert("Възникна проблем!");
                 return;
             }
             const registerResponse = await response.text();
-            alert("Регистрирахте ученик");
+            alert("Специалността е добавена!");
             window.location.href = '/';
         })
-            .catch(error => alert(error))
+            .catch(error => alert(error));
     }
 
     validateEmail = () => {
