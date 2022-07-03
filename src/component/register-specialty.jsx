@@ -53,7 +53,7 @@ class RegisterSpecialty extends Component {
         const registerForm = {
             name: currentThis.state.name,
         }
-        fetch(process.env.REACT_APP_URL + '/specialty', {
+        fetch(process.env.REACT_APP_URL + '/specialties', {
             method: 'POST',
             body: JSON.stringify(registerForm),
             headers: {

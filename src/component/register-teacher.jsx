@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import '../styles/login.css'
 
-class RegisterStudent extends Component {
+class RegisterTeacher extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,13 +21,13 @@ class RegisterStudent extends Component {
                         <div className="col-md-3 register-left">
                             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                             <h3>Здравей</h3>
-                            <p>Форма за регистрация на ученици</p>
+                            <p>Форма за регистрация на учители</p>
                         </div>
                         <div className="col-md-9 register-right">
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <h3 className="register-heading">Регистрация на ученик</h3>
+                                    <h3 className="register-heading">Регистрация на учител</h3>
                                     <div className="row register-form">
                                         <div className="col-md-6">
                                             <div className="form-group">
@@ -82,10 +82,7 @@ class RegisterStudent extends Component {
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-
             </React.Fragment>
         );
     }
@@ -99,7 +96,7 @@ class RegisterStudent extends Component {
             password: currentThis.state.password,
             confirmPassword: currentThis.state.confirmPassword
         }
-        fetch(process.env.REACT_APP_URL + '/students', {
+        fetch(process.env.REACT_APP_URL + '/teachers', {
             method: 'POST',
             body: JSON.stringify(registerForm),
             headers: {
@@ -112,7 +109,7 @@ class RegisterStudent extends Component {
                 return;
             }
             const registerResponse = await response.text();
-            alert("Регистрирахте ученик");
+            alert("Регистрирахте учител");
             window.location.href = '/';
         })
             .catch(error => alert(error))
@@ -161,4 +158,4 @@ class RegisterStudent extends Component {
     }
 }
 
-export default RegisterStudent;
+export default RegisterTeacher;
