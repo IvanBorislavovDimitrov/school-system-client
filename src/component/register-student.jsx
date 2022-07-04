@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import '../styles/login.css'
+import ReactDOM from 'react-dom';
 
 class RegisterStudent extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class RegisterStudent extends Component {
             password: null,
             egn: null,
             name: null,
-            confirmPassword: null
+            confirmPassword: null,
+            studentClass: null
         };
     }
 
@@ -73,6 +75,9 @@ class RegisterStudent extends Component {
                                             <div id="confirmPasswordNameInvalidForm" className="text-danger">
 
                                             </div>
+                                            <select id="studentClassId" name="studentClass" onChange={this.changeInputField}
+                                                className="custom-select form-group">
+                                            </select>
 
                                             <input onClick={this.registerUser} type="submit" className="btnRegister"
                                                 value="Регистрация" />
@@ -97,7 +102,8 @@ class RegisterStudent extends Component {
             name: currentThis.state.name,
             egn: currentThis.state.egn,
             password: currentThis.state.password,
-            confirmPassword: currentThis.state.confirmPassword
+            confirmPassword: currentThis.state.confirmPassword,
+            studentClass: currentThis.state.studentClass
         }
         fetch(process.env.REACT_APP_URL + '/students', {
             method: 'POST',
@@ -153,7 +159,28 @@ class RegisterStudent extends Component {
     };
 
     componentDidMount() {
-
+        fetch(process.env.REACT_APP_URL + '/student_classes', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
+            }
+        }).then(response => response.json())
+        .then(jsonResponse => {
+            const studentClassId = document.getElementById('studentClassId');
+            let studentClasses = jsonResponse.map(studentClass => studentClass['name']);
+            const elements = [];
+            elements.push(
+                (<option selected disabled="disabled" value="Избери клас">Избери клас</option>)
+            )
+            studentClasses.forEach(specialty => {
+                const s = (
+                    <option value={specialty}>{specialty}</option>
+                    )
+                elements.push(s);
+            });
+            ReactDOM.render(elements, studentClassId);
+        })
     }
 
     moveToLogin = () => {
