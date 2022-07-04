@@ -48,6 +48,10 @@ class Navbar extends Component {
                                 <a className="nav-link" href="/register_specialty">Добавяне на специалност</a>
                             </li>
 
+                            <li className="nav-item" hidden={!isDirector}>
+                                <a className="nav-link" href="/register_subject">Добавяне на предмет</a>
+                            </li>
+
                             <li className="nav-item" hidden={!isTeacher}>
                                 <a className="nav-link" href="/register_student">Регистрация на ученик</a>
                             </li>

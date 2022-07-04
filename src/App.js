@@ -9,6 +9,7 @@ import DeleteUser from "./component/delete-users";
 import RegisterClass from "./component/register-class";
 import RegisterSpecialty from "./component/register-specialty";
 import RegisterTeacher from "./component/register-teacher";
+import RegisterSubject from "./component/register-subject";
 
 function App() {
   setTimeout(function () {
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/register_class" component={RegisterClass} />
         <Route exact path="/register_specialty" component={RegisterSpecialty} />
         <Route exact path="/register_teacher" component={RegisterTeacher} />
+        <Route exact path="/register_subject" component={RegisterSubject} />
 
       </Switch>
     </BrowserRouter>
