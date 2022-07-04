@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import '../styles/login.css'
+import ReactDOM from 'react-dom';
 
 class RegisterClass extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
-            password: null,
-            egn: null,
             name: null,
-            confirmPassword: null
+            specialty: null
         };
     }
 
@@ -36,43 +34,10 @@ class RegisterClass extends Component {
                                                     onChange={this.changeInputField}
                                                 />
                                             </div>
-                                            <div id="emailNameInvalidForm" className="text-danger">
+                                            <select id="specialtyId" name="specialty" onChange={this.changeInputField}
+                                                className="custom-select form-group">
+                                            </select>
 
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Потребителско име"
-                                                    name="username"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="ЕГН"
-                                                    name="egn"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div id="usernameNameInvalidForm" className="text-danger">
-
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="password" className="form-control" placeholder="Парола"
-                                                    name="password"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div id="passwordNameInvalidForm" className="text-danger">
-
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="password" className="form-control"
-                                                    placeholder="Потвърди парола"
-                                                    name="confirmPassword"
-                                                    onChange={this.changeInputField}
-                                                />
-                                            </div>
-                                            <div id="confirmPasswordNameInvalidForm" className="text-danger">
-
-                                            </div>
 
                                             <input onClick={this.registerUser} type="submit" className="btnRegister"
                                                 value="Регистрация" />
@@ -92,57 +57,27 @@ class RegisterClass extends Component {
 
     registerUser = () => {
         const currentThis = this;
-        const registerForm = {
-            username: currentThis.state.username,
+        const addClassForm = {
             name: currentThis.state.name,
-            egn: currentThis.state.egn,
-            password: currentThis.state.password,
-            confirmPassword: currentThis.state.confirmPassword
+            specialty: currentThis.state.specialty
         }
-        fetch(process.env.REACT_APP_URL + '/students', {
+        fetch(process.env.REACT_APP_URL + '/student_classes', {
             method: 'POST',
-            body: JSON.stringify(registerForm),
+            body: JSON.stringify(addClassForm),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
             }
         }).then(async response => {
             if (response.status !== 201) {
-                alert("You haven't been registered!");
+                alert("Специалността не е добавена!");
                 return;
             }
             const registerResponse = await response.text();
-            alert("Регистрирахте ученик");
+            alert("Добавихте клас");
             window.location.href = '/';
         })
             .catch(error => alert(error))
-    }
-
-    validateEmail = () => {
-        if (this.state.email == '' || this.state.email == null || this.state.email == undefined) {
-            return false;
-        }
-        return true;
-    }
-
-    validateUsername = () => {
-        if (this.state.username == '' || this.state.username == null || this.state.username == undefined) {
-            return false;
-        }
-        return true;
-    }
-
-    validatePassword = () => {
-        if (this.state.password == '' || this.state.password == null || this.state.password == undefined) {
-            return false;
-        }
-        return true;
-    }
-
-    validateConfirmPassword = () => {
-        if (this.state.confirmPassword == '' || this.state.confirmPassword == null || this.state.confirmPassword == undefined) {
-            return false;
-        }
-        return true;
     }
 
     changeInputField = event => {
@@ -152,7 +87,28 @@ class RegisterClass extends Component {
     };
 
     componentDidMount() {
-
+        fetch(process.env.REACT_APP_URL + '/specialties', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
+            }
+        }).then(response => response.json())
+        .then(jsonResponse => {
+            const specialtySelect = document.getElementById('specialtyId');
+            let specialties = jsonResponse.map(specialty => specialty['name']);
+            const elements = [];
+            elements.push(
+                (<option selected disabled="disabled" value="Избери специалност">Избери специалност</option>)
+            )
+            specialties.forEach(specialty => {
+                const s = (
+                    <option value={specialty}>{specialty}</option>
+                    )
+                elements.push(s);
+            });
+            ReactDOM.render(elements, specialtySelect);
+        })
     }
 
     moveToLogin = () => {
