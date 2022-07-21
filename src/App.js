@@ -10,6 +10,7 @@ import RegisterClass from "./component/register-class";
 import RegisterSpecialty from "./component/register-specialty";
 import RegisterTeacher from "./component/register-teacher";
 import RegisterSubject from "./component/register-subject";
+import AddSemester from "./component/add-semester";
 
 function App() {
   setTimeout(function () {
@@ -29,6 +30,7 @@ function App() {
         <Route exact path="/register_specialty" component={RegisterSpecialty} />
         <Route exact path="/register_teacher" component={RegisterTeacher} />
         <Route exact path="/register_subject" component={RegisterSubject} />
+        <Route exact path="/add_semester" component={AddSemester} />
 
       </Switch>
     </BrowserRouter>

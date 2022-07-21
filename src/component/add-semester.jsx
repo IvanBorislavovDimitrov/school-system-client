@@ -6,8 +6,7 @@ class RegisterSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: null,
-            teachers: null
+            value: null,
         };
     }
 
@@ -19,26 +18,30 @@ class RegisterSpecialty extends Component {
                         <div className="col-md-3 register-left">
                             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                             <h3>Здравей</h3>
-                            <p>Добавяне на нов предмет</p>
+                            <p>Добавяне на нов семестър</p>
                         </div>
                         <div className="col-md-9 register-right">
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <h3 className="register-heading">Добавяне на нов предмет</h3>
+                                    <h3 className="register-heading">Добавяне на нов семестър</h3>
                                     <div className="row register-form">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Име"
-                                                    name="name"
+                                                <input type="text" className="form-control" placeholder="Година"
+                                                    name="value"
                                                     onChange={this.changeInputField}
                                                 />
                                             </div>
-                                            <select multiple id="teachersId" name="teachers" onChange={this.changeInputField}
+                                            <select multiple id="specialtiesId" name="teachers" onChange={this.changeInputField}
                                                 className="custom-select form-group">
 
                                             </select>
-                                            <input onClick={this.addSpecialty} type="submit" className="btnRegister"
+                                            <select multiple id="subjectsId" name="teachers" onChange={this.changeInputField}
+                                                className="custom-select form-group">
+
+                                                </select>
+                                            <input onClick={this.addSemester} type="submit" className="btnRegister"
                                                 value="Добавяне" />
                                         </div>
                                     </div>
@@ -54,19 +57,26 @@ class RegisterSpecialty extends Component {
         );
     }
 
-    addSpecialty = () => {
-        let selected = [];
-        for (let option of document.getElementById('teachersId').options) {
+    addSemester = () => {
+        let specialtiesNames = [];
+        for (let option of document.getElementById('specialtiesId').options) {
             if (option.selected) {
-                selected.push(option.value);
+                specialtiesNames.push(option.value);
+            }
+        }
+        let subjectsNames = [];
+        for (let option of document.getElementById('subjectsId').options) {
+            if (option.selected) {
+                subjectsNames.push(option.value);
             }
         }
         const currentThis = this;
         const registerForm = {
-            name: currentThis.state.name,
-            teachers: selected
+            value: currentThis.state.value,
+            specialties: specialtiesNames,
+            subjects: subjectsNames
         }
-        fetch(process.env.REACT_APP_URL + '/subjects', {
+        fetch(process.env.REACT_APP_URL + '/semesters', {
             method: 'POST',
             body: JSON.stringify(registerForm),
             headers: {
@@ -79,7 +89,7 @@ class RegisterSpecialty extends Component {
                 return;
             }
             const registerResponse = await response.text();
-            alert("Предметът е добавен!");
+            alert("Семестърът е добавен!");
             window.location.href = '/';
         })
             .catch(error => alert(error));
@@ -92,7 +102,12 @@ class RegisterSpecialty extends Component {
     };
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_URL + '/teachers', {
+        this.loadSubjects();
+        this.loadSpecialties();
+    }
+
+    loadSpecialties = () => {
+        fetch(process.env.REACT_APP_URL + '/specialties', {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -100,19 +115,44 @@ class RegisterSpecialty extends Component {
             }
         }).then(response => response.json())
         .then(jsonResponse => {
-            const teachers = document.getElementById('teachersId');
-            let teachersNames = jsonResponse.map(teacher => teacher['name']);
+            const specialties = document.getElementById('specialtiesId');
+            let specialtiesNames = jsonResponse.map(subject => subject['name']);
             const elements = [];
             elements.push(
-                (<option selected disabled="disabled" value="Избери учител">Избери учител</option>)
+                (<option selected disabled="disabled" value="Избери специалност">Избери специалност</option>)
             )
-            teachersNames.forEach(teacher => {
+            specialtiesNames.forEach(subject => {
                 const s = (
-                    <option value={teacher}>{teacher}</option>
+                    <option value={subject}>{subject}</option>
                     )
                 elements.push(s);
             });
-            ReactDOM.render(elements, teachers);
+            ReactDOM.render(elements, specialties);
+        })
+    }
+
+    loadSubjects = () => {
+        fetch(process.env.REACT_APP_URL + '/subjects', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
+            }
+        }).then(response => response.json())
+        .then(jsonResponse => {
+            const subjects = document.getElementById('subjectsId');
+            let subjectNames = jsonResponse.map(subject => subject['name']);
+            const elements = [];
+            elements.push(
+                (<option selected disabled="disabled" value="Избери предмет">Избери предмет</option>)
+            )
+            subjectNames.forEach(subject => {
+                const s = (
+                    <option value={subject}>{subject}</option>
+                    )
+                elements.push(s);
+            });
+            ReactDOM.render(elements, subjects);
         })
     }
 
