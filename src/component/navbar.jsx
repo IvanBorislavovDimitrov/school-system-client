@@ -64,6 +64,10 @@ class Navbar extends Component {
                                 <a className="nav-link" href="/add_semester">Добавяне на семестър</a>
                             </li>
 
+                            <li className="nav-item" hidden={!isTeacher}>
+                                <a className="nav-link" href="/show_students">Покажи студент по клас</a>
+                            </li>
+
                             <li className="nav-item" hidden={!isDirector}>
                                 <a href="/admin/update-roles/" className="nav-link">Промени роля</a>
                             </li>

@@ -11,6 +11,7 @@ import RegisterSpecialty from "./component/register-specialty";
 import RegisterTeacher from "./component/register-teacher";
 import RegisterSubject from "./component/register-subject";
 import AddSemester from "./component/add-semester";
+import ShowStudentsByClass from "./component/show-students-by-class";
 
 function App() {
   setTimeout(function () {
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/register_teacher" component={RegisterTeacher} />
         <Route exact path="/register_subject" component={RegisterSubject} />
         <Route exact path="/add_semester" component={AddSemester} />
+        <Route exact path="/show_students" component={ShowStudentsByClass} />
 
       </Switch>
     </BrowserRouter>
